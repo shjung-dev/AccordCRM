@@ -1,0 +1,185 @@
+services:
+  # --- Client Service (no dependencies on other services) ---
+  client-service:
+    build: ./backend/client-service
+    container_name: client-service
+    ports:
+      - "127.0.0.1:8082:8082"
+    env_file: .env
+    environment:
+      - CORS_ALLOWED_ORIGIN=${CORS_ALLOWED_ORIGIN:-http://localhost:3000}
+      - DB_URL=${CLIENT_DB_URL}
+      - DB_USERNAME=${CLIENT_DB_USERNAME}
+      - DB_PASSWORD=${CLIENT_DB_PASSWORD}
+      - LOG_QUEUE_URL=${LOG_QUEUE_URL}
+    healthcheck:
+      test: ["CMD-SHELL", "curl -s http://localhost:8082/ > /dev/null 2>&1"]
+      interval: 15s
+      timeout: 5s
+      retries: 10
+      start_period: 40s
+    deploy:
+      resources:
+        limits:
+          memory: 512M
+    networks:
+      - app-network
+    restart: on-failure:5
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "3"
+
+  # --- User Service (depends on client-service) ---
+  user-service:
+    build: ./backend/user-service
+    container_name: user-service
+    ports:
+      - "127.0.0.1:8081:8081"
+    env_file: .env
+    environment:
+      - CLIENT_SERVICE_URL=http://client-service:8082
+      - CORS_ALLOWED_ORIGIN=${CORS_ALLOWED_ORIGIN:-http://localhost:3000}
+      - COGNITO_USER_POOL_ID=${NEXT_PUBLIC_COGNITO_USER_POOL_ID}
+      - COGNITO_REGION=${COGNITO_REGION:-us-east-1}
+      - AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID}
+      - AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}
+      - AWS_SESSION_TOKEN=${AWS_SESSION_TOKEN}
+      - DB_URL=${USER_DB_URL}
+      - DB_USERNAME=${USER_DB_USERNAME}
+      - DB_PASSWORD=${USER_DB_PASSWORD}
+      - LOG_QUEUE_URL=${LOG_QUEUE_URL}
+    depends_on:
+      client-service:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD-SHELL", "curl -s http://localhost:8081/ > /dev/null 2>&1"]
+      interval: 15s
+      timeout: 5s
+      retries: 10
+      start_period: 40s
+    deploy:
+      resources:
+        limits:
+          memory: 512M
+    networks:
+      - app-network
+    restart: on-failure:5
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "3"
+
+  # --- Account Service (depends on client-service) ---
+  account-service:
+    build: ./backend/account-service
+    container_name: account-service
+    ports:
+      - "127.0.0.1:8083:8083"
+    env_file: .env
+    environment:
+      - CLIENT_SERVICE_URL=http://client-service:8082
+      - CORS_ALLOWED_ORIGIN=${CORS_ALLOWED_ORIGIN:-http://localhost:3000}
+      - DB_URL=${ACCOUNT_DB_URL}
+      - DB_USERNAME=${ACCOUNT_DB_USERNAME}
+      - DB_PASSWORD=${ACCOUNT_DB_PASSWORD}
+      - LOG_QUEUE_URL=${LOG_QUEUE_URL}
+    depends_on:
+      client-service:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD-SHELL", "curl -s http://localhost:8083/ > /dev/null 2>&1"]
+      interval: 15s
+      timeout: 5s
+      retries: 10
+      start_period: 40s
+    deploy:
+      resources:
+        limits:
+          memory: 512M
+    networks:
+      - app-network
+    restart: on-failure:5
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "3"
+
+  # --- Frontend (depends on all backend services) ---
+  frontend:
+    build: ./frontend
+    container_name: frontend
+    ports:
+      - "3000:3000"
+    environment:
+      - USER_SERVICE_URL=http://user-service:8081
+      - CLIENT_SERVICE_URL=http://client-service:8082
+      - ACCOUNT_SERVICE_URL=http://account-service:8083
+      - AUTH_COOKIE_SECRET=${AUTH_COOKIE_SECRET}
+      - INTERNAL_SERVICE_KEY=${INTERNAL_SERVICE_KEY}
+      - AWS_BEARER_TOKEN_BEDROCK=${AWS_BEARER_TOKEN_BEDROCK}
+    depends_on:
+      user-service:
+        condition: service_healthy
+      client-service:
+        condition: service_healthy
+      account-service:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD-SHELL", "wget -q --spider http://localhost:3000/ || exit 1"]
+      interval: 15s
+      timeout: 5s
+      retries: 5
+      start_period: 20s
+    deploy:
+      resources:
+        limits:
+          memory: 256M
+    networks:
+      - app-network
+    restart: on-failure:5
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "3"
+
+  # --- Frontend Dev (hot reload — use instead of `frontend` during development) ---
+  frontend-dev:
+    image: node:20.18-alpine
+    container_name: frontend-dev
+    working_dir: /app
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./frontend:/app
+      - frontend_node_modules:/app/node_modules
+    command: sh -c "npm install && npm run dev"
+    environment:
+      - WATCHPACK_POLLING=true
+      - USER_SERVICE_URL=http://user-service:8081
+      - CLIENT_SERVICE_URL=http://client-service:8082
+      - ACCOUNT_SERVICE_URL=http://account-service:8083
+      - AUTH_COOKIE_SECRET=${AUTH_COOKIE_SECRET}
+      - INTERNAL_SERVICE_KEY=${INTERNAL_SERVICE_KEY}
+      - AWS_BEARER_TOKEN_BEDROCK=${AWS_BEARER_TOKEN_BEDROCK}
+    depends_on:
+      user-service:
+        condition: service_healthy
+      client-service:
+        condition: service_healthy
+      account-service:
+        condition: service_healthy
+    networks:
+      - app-network
+    restart: on-failure:5
+
+volumes:
+  frontend_node_modules:
+
+networks:
+  app-network:
+    driver: bridge

@@ -1,0 +1,434 @@
+@import "tailwindcss";
+
+:root {
+  /* Main Theme Colors */
+  --primary: #1e40af;
+  --primary-dark: #1e3a8a;
+  --primary-light: #3b82f6;
+
+  /* Neutral Colors */
+  --background: #f8fafc;
+  --foreground: #0f172a;
+  --card: #ffffff;
+  --card-foreground: #0f172a;
+
+  /* Border and Muted Colors */
+  --border: #e2e8f0;
+  --muted: #f1f5f9;
+  --muted-foreground: #334155;
+
+  /* Status Colors */
+  --success: #16a34a;
+  --warning: #eab308;
+  --error: #dc2626;
+
+  /* Input Colors */
+  --input: #e2e8f0;
+  --ring: #1e40af;
+
+  /* Destructive */
+  --destructive: #dc2626;
+  --destructive-foreground: #ffffff;
+
+  /* Radius */
+  --radius: 0.5rem;
+}
+
+.dark {
+  /* Main Theme Colors - Sky blue accent */
+  --primary: #38bdf8;
+  --primary-dark: #0ea5e9;
+  --primary-light: #7dd3fc;
+
+  /* Neutral Colors - Near-black, low-contrast */
+  --background: #0d0d0d;
+  --foreground: #ececec;
+  --card: #1a1a1a;
+  --card-foreground: #ececec;
+
+  /* Border and Muted Colors - Subtle, almost invisible */
+  --border: #2a2a2a;
+  --muted: #222222;
+  --muted-foreground: #b3b3b3;
+
+  /* Status Colors - Used sparingly */
+  --success: #10a37f;
+  --warning: #f4bf50;
+  --error: #e5533d;
+
+  /* Input Colors */
+  --input: #2a2a2a;
+  --ring: #38bdf8;
+
+  /* Destructive */
+  --destructive: #e5533d;
+  --destructive-foreground: #ececec;
+}
+
+@theme inline {
+  --color-primary: var(--primary);
+  --color-primary-dark: var(--primary-dark);
+  --color-primary-light: var(--primary-light);
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-border: var(--border);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-success: var(--success);
+  --color-warning: var(--warning);
+  --color-error: var(--error);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --font-sans: var(--font-ibm-plex-sans);
+  --radius: 0.5rem;
+}
+
+* {
+  border-color: var(--border);
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-ibm-plex-sans), system-ui, sans-serif;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* Remove browser autofill blue/yellow background */
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active {
+  -webkit-box-shadow: 0 0 0 30px var(--card) inset !important;
+  box-shadow: 0 0 0 30px var(--card) inset !important;
+  -webkit-text-fill-color: var(--foreground) !important;
+}
+
+select:-webkit-autofill,
+select:-webkit-autofill:hover,
+select:-webkit-autofill:focus,
+select:-webkit-autofill:active {
+  -webkit-box-shadow: 0 0 0 30px var(--card) inset !important;
+  box-shadow: 0 0 0 30px var(--card) inset !important;
+  -webkit-text-fill-color: var(--foreground) !important;
+}
+
+.focus-ring {
+  outline: none;
+  ring: 2px;
+  ring-offset: 2px;
+  ring-color: var(--ring);
+}
+
+/* Phone Input Custom Styles */
+.phone-input-custom {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.phone-input-custom .PhoneInputCountry {
+  display: flex;
+  align-items: center;
+  padding: 0 0.75rem;
+  border: 1px solid var(--input);
+  border-radius: 0.75rem;
+  background: var(--card);
+  transition: border-color 0.2s ease, box-shadow 0.2s ease, background-color 0.3s ease;
+}
+
+.phone-input-custom .PhoneInputCountry:focus-within {
+  border-color: var(--ring);
+  box-shadow: 0 0 0 2px rgba(30, 64, 175, 0.1);
+}
+
+.phone-input-custom .PhoneInputCountrySelect {
+  appearance: none;
+  border: none;
+  background: transparent;
+  padding-right: 0.5rem;
+  cursor: pointer;
+}
+
+.phone-input-custom .PhoneInputCountrySelect:focus {
+  outline: none;
+}
+
+.phone-input-custom .PhoneInputCountryIcon {
+  width: 1.25rem;
+  height: 1rem;
+}
+
+.phone-input-custom .PhoneInputInput {
+  flex: 1;
+  height: 2.5rem;
+  width: 100%;
+  border-radius: 0.75rem;
+  border: 1px solid var(--input);
+  background: var(--card);
+  color: var(--foreground);
+  padding: 0.5rem 0.75rem;
+  font-size: 0.875rem;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease, background-color 0.3s ease;
+}
+
+.phone-input-custom .PhoneInputInput:focus {
+  outline: none;
+  border-color: var(--ring);
+  box-shadow: 0 0 0 2px rgba(30, 64, 175, 0.1);
+}
+
+.phone-input-custom .PhoneInputInput::placeholder {
+  color: var(--muted-foreground);
+}
+
+/* Phone Input Error State */
+.phone-input-error .PhoneInputCountry {
+  border-color: #ef4444;
+}
+
+.phone-input-error .PhoneInputCountry:focus-within {
+  border-color: #ef4444;
+  box-shadow: 0 0 0 2px rgba(239, 68, 68, 0.1);
+}
+
+.phone-input-error .PhoneInputInput {
+  border-color: #ef4444;
+}
+
+.phone-input-error .PhoneInputInput:focus {
+  border-color: #ef4444;
+  box-shadow: 0 0 0 2px rgba(239, 68, 68, 0.1);
+}
+
+/* Address Autocomplete Styles */
+.address-autocomplete-wrapper {
+  position: relative;
+}
+
+.address-autocomplete-dropdown {
+  position: absolute;
+  z-index: 50;
+  width: 100%;
+  margin-top: 0.25rem;
+  padding: 0.25rem 0;
+  list-style: none;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 0.75rem;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+}
+
+.address-autocomplete-item {
+  display: flex;
+  flex-direction: column;
+  gap: 0.125rem;
+  padding: 0.5rem 0.75rem;
+  cursor: pointer;
+  transition: background-color 0.15s ease;
+}
+
+.address-autocomplete-item:hover,
+.address-autocomplete-item.active {
+  background: var(--muted);
+}
+
+.address-autocomplete-main {
+  font-size: 0.875rem;
+  color: var(--foreground);
+}
+
+.address-autocomplete-secondary {
+  font-size: 0.75rem;
+  color: var(--muted-foreground);
+}
+
+.address-autocomplete-attribution {
+  padding: 0.375rem 0.75rem;
+  font-size: 0.6875rem;
+  color: var(--muted-foreground);
+  text-align: right;
+  border-top: 1px solid var(--border);
+  margin-top: 0.25rem;
+}
+
+/* SmartCRM Chatbot — Claude-inspired theming */
+:root {
+  --smartcrm-accent: #c96442;
+  --smartcrm-accent-hover: #b5573a;
+  --smartcrm-logo: #c96442;
+  --smartcrm-logo-bg: rgba(201, 100, 66, 0.1);
+  --smartcrm-input-border: #d4d4d4;
+  --smartcrm-input-focus: #c96442;
+  --smartcrm-send-bg: #c96442;
+  --smartcrm-send-text: #ffffff;
+  --smartcrm-fab-bg: #c96442;
+  --smartcrm-fab-text: #ffffff;
+}
+
+.dark {
+  --smartcrm-accent: #d4845a;
+  --smartcrm-accent-hover: #e09570;
+  --smartcrm-logo: #d4845a;
+  --smartcrm-logo-bg: rgba(212, 132, 90, 0.12);
+  --smartcrm-input-border: #3a3a3a;
+  --smartcrm-input-focus: #d4845a;
+  --smartcrm-send-bg: #8b5e3c;
+  --smartcrm-send-text: #f0e6df;
+  --smartcrm-fab-bg: #8b5e3c;
+  --smartcrm-fab-text: #f0e6df;
+}
+
+.smartcrm-logo {
+  color: var(--smartcrm-logo);
+}
+
+.smartcrm-logo-bg {
+  background: var(--smartcrm-logo-bg);
+}
+
+.smartcrm-input-box {
+  border-color: var(--smartcrm-input-border);
+  background: var(--card);
+}
+
+.smartcrm-input-box:focus-within {
+  border-color: var(--smartcrm-input-focus);
+  box-shadow: 0 0 0 1px var(--smartcrm-input-focus);
+}
+
+.smartcrm-send-btn {
+  background: var(--smartcrm-send-bg);
+  color: var(--smartcrm-send-text);
+}
+
+.smartcrm-send-btn:hover:not(:disabled) {
+  background: var(--smartcrm-accent-hover);
+}
+
+.smartcrm-fab {
+  background: var(--smartcrm-fab-bg);
+  color: var(--smartcrm-fab-text);
+}
+
+.smartcrm-fab:hover {
+  background: var(--smartcrm-accent-hover);
+}
+
+.smartcrm-fab:focus {
+  --tw-ring-color: var(--smartcrm-accent);
+}
+
+/* Chatbot Markdown Styles */
+.chat-markdown {
+  line-height: 1.5;
+}
+
+.chat-markdown p {
+  margin: 0.25rem 0;
+}
+
+.chat-markdown p:first-child {
+  margin-top: 0;
+}
+
+.chat-markdown p:last-child {
+  margin-bottom: 0;
+}
+
+.chat-markdown h1,
+.chat-markdown h2,
+.chat-markdown h3,
+.chat-markdown h4 {
+  font-weight: 600;
+  margin: 0.5rem 0 0.25rem;
+}
+
+.chat-markdown h1 {
+  font-size: 1rem;
+}
+
+.chat-markdown h2 {
+  font-size: 0.9375rem;
+}
+
+.chat-markdown h3,
+.chat-markdown h4 {
+  font-size: 0.875rem;
+}
+
+.chat-markdown ul,
+.chat-markdown ol {
+  padding-left: 1.25rem;
+  margin: 0.25rem 0;
+}
+
+.chat-markdown li {
+  margin: 0.125rem 0;
+}
+
+.chat-markdown code {
+  background: var(--muted);
+  border: 1px solid var(--border);
+  border-radius: 0.25rem;
+  padding: 0.1rem 0.3rem;
+  font-size: 0.8em;
+}
+
+.chat-markdown pre {
+  background: var(--muted);
+  border: 1px solid var(--border);
+  border-radius: 0.5rem;
+  padding: 0.5rem 0.75rem;
+  margin: 0.375rem 0;
+  overflow-x: auto;
+}
+
+.chat-markdown pre code {
+  background: none;
+  border: none;
+  padding: 0;
+  font-size: 0.8em;
+}
+
+.chat-markdown blockquote {
+  border-left: 3px solid var(--primary);
+  padding-left: 0.75rem;
+  margin: 0.375rem 0;
+  color: var(--muted-foreground);
+}
+
+.chat-markdown hr {
+  border-color: var(--border);
+  margin: 0.5rem 0;
+}
+
+.chat-markdown strong {
+  font-weight: 600;
+}
+
+.chat-markdown a {
+  color: var(--primary);
+  text-decoration: underline;
+}
+
+.chat-markdown table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 0.375rem 0;
+  font-size: 0.8em;
+}
+
+.chat-markdown th,
+.chat-markdown td {
+  border: 1px solid var(--border);
+  padding: 0.25rem 0.5rem;
+  text-align: left;
+}
+
+.chat-markdown th {
+  background: var(--muted);
+  font-weight: 600;
+}

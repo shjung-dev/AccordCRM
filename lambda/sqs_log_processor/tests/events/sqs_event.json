@@ -1,0 +1,36 @@
+{
+  "Records": [
+    {
+      "messageId": "11d6ee51-4cc7-4302-9e22-7cd8afdaadf5",
+      "receiptHandle": "AQEBBX...",
+      "body": "{\"userId\":\"550e8400-e29b-41d4-a716-446655440000\",\"action\":\"CLIENT_CREATED\",\"entityType\":\"CLIENT\",\"entityId\":\"6ba7b810-9dad-11d1-80b4-00c04fd430c8\",\"actionStatus\":\"SUCCESS\",\"sourceService\":\"client-service\"}",
+      "attributes": {
+        "ApproximateReceiveCount": "1",
+        "SentTimestamp": "1710000000000",
+        "SenderId": "AIDAIENQZJOLO23YVJ4VO",
+        "ApproximateFirstReceiveTimestamp": "1710000000100"
+      },
+      "messageAttributes": {},
+      "md5OfBody": "e4e68fb7bd0e697a0ae8f1bb342846b0",
+      "eventSource": "aws:sqs",
+      "eventSourceARN": "arn:aws:sqs:ap-southeast-1:123456789012:crm-activity-logs",
+      "awsRegion": "ap-southeast-1"
+    },
+    {
+      "messageId": "22d6ee51-4cc7-4302-9e22-7cd8afdaadf5",
+      "receiptHandle": "AQEBBX...",
+      "body": "{\"userId\":\"550e8400-e29b-41d4-a716-446655440000\",\"action\":\"CLIENT_UPDATED\",\"entityType\":\"CLIENT\",\"entityId\":\"6ba7b810-9dad-11d1-80b4-00c04fd430c8\",\"attributeName\":\"First Name\",\"beforeValue\":\"Lee\",\"afterValue\":\"Tan\",\"actionStatus\":\"SUCCESS\",\"sourceService\":\"client-service\"}",
+      "attributes": {
+        "ApproximateReceiveCount": "1",
+        "SentTimestamp": "1710000001000",
+        "SenderId": "AIDAIENQZJOLO23YVJ4VO",
+        "ApproximateFirstReceiveTimestamp": "1710000001100"
+      },
+      "messageAttributes": {},
+      "md5OfBody": "e4e68fb7bd0e697a0ae8f1bb342846b0",
+      "eventSource": "aws:sqs",
+      "eventSourceARN": "arn:aws:sqs:ap-southeast-1:123456789012:crm-activity-logs",
+      "awsRegion": "ap-southeast-1"
+    }
+  ]
+}

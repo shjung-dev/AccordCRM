@@ -1,0 +1,15 @@
+target/
+.git
+.gitignore
+.env*
+.idea/
+.vscode/
+.settings/
+.classpath
+.project
+*.iml
+*.log
+*.tmp
+.DS_Store
+Dockerfile
+.dockerignore
