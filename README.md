@@ -1,6 +1,3 @@
-[![Review Assignment Due Date](https://classroom.github.com/assets/deadline-readme-button-22041afd0340ce965d47ae6ef1cefeee28c7c493a6346c4f15d667ab976d596c.svg)](https://classroom.github.com/a/ojTTbieH)
-
-
 # AccordCRM — Scrooge Global Bank
 
 > A cloud-native, modular Customer Relationship Management (CRM) platform built for **Scrooge Global Bank** as part of **CS301 – Enterprise Solution Development (AY2025/26 T2, Group G2-T2)**.
