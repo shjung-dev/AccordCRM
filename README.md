@@ -58,7 +58,7 @@ See [`documents/features.md`](documents/features.md) for the full feature invent
 ## Architecture
 
 AccordCRM follows a **microservices + BFF (Backend-for-Frontend)** pattern, deployed on AWS across multiple availability zones.
-
+<img width="1512" height="759" alt="Screenshot 2026-04-22 at 12 42 50 AM" src="https://github.com/user-attachments/assets/3162235b-de8b-4bed-abe4-7f7baf42411a" />
 ```
                            ┌──────────────────────────┐
    Browser  ──────────▶   │  CloudFront + WAF + S3   │  (static Next.js export)
