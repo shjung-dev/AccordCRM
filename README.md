@@ -452,8 +452,6 @@ Living documentation is kept in [`documents/`](documents/):
 
 **CS301 — AY2025/26 Term 2, Group G2-T2**, Singapore Management University.
 
-Contributions are made via feature branches and pull requests into `main`. See `git log` for individual authorship.
-
 ---
 
 ## License
