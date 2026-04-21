@@ -4,8 +4,6 @@
 
 AccordCRM manages bank agents, client profiles, accounts, transactions, audit logs, and an AI-assisted copilot — built with a microservices backend (Spring Boot), a Next.js frontend, and a fully codified AWS infrastructure deployed via Terraform.
 
-**Live application:** https://d2rovljjp79ivt.cloudfront.net
-
 ---
 
 ## Table of Contents
