@@ -1,6 +1,6 @@
 # AccordCRM — Scrooge Global Bank
 
-> A cloud-native, modular Customer Relationship Management (CRM) platform built for **Scrooge Global Bank** as part of **CS301 – Enterprise Solution Development (AY2025/26 T2, Group G2-T2)**.
+> A cloud-native, modular Customer Relationship Management (CRM) platform built for **Scrooge Global Bank** as part of **CS301 – IT Solution Architecture (AY2025/26 T2, Group G2-T2)**.
 
 AccordCRM manages bank agents, client profiles, accounts, transactions, audit logs, and an AI-assisted copilot — built with a microservices backend (Spring Boot), a Next.js frontend, and a fully codified AWS infrastructure deployed via Terraform.
 
